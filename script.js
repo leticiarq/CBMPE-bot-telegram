@@ -71,10 +71,24 @@ function showWelcomeScreen() {
 function showMessage(text, sender = "bot") {
   const msg = document.createElement("div");
   msg.className = sender;
-  msg.innerHTML = text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>'); 
+  
+  // 1. Converte negrito **texto** para <strong>texto</strong>
+  let formattedText = text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+  
+  // 2. Converte quebras de linha \n para <br>
+  formattedText = formattedText.replace(/\n/g, '<br>');
+
+  // 3. Converte URLs em links clicáveis (target="_blank" abre em nova aba)
+  const urlRegex = /(https?:\/\/[^\s]+)/g;
+  formattedText = formattedText.replace(urlRegex, function(url) {
+    return `<a href="${url}" target="_blank" style="color: #fff; text-decoration: underline;">${url}</a>`;
+  });
+
+  msg.innerHTML = formattedText;
   chatOutput.appendChild(msg);
   chatOutput.scrollTop = chatOutput.scrollHeight;
 }
+
 
 function nextQuestion() {
   const current = cbmpeFlow[step];
