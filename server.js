@@ -261,13 +261,20 @@ function listarTodosDocumentos() {
 function classificarIntencao(mensagem) {
     const msg = mensagem.toLowerCase();
     
-    // Pedido de documento
-    if (/(preciso|quero|envie|envia|mande|manda|me dá|me da|documento|modelo|formulário|formulario|anexo)/i.test(msg)) {
+    // ⭐ PRIORIDADE MÁXIMA: Alteração de modelo (DEVE SER A PRIMEIRA VERIFICAÇÃO)
+    if (
+        /(alterar|mudar|editar|modificar|mexer|trocar|transformar|adaptar)/i.test(msg) && 
+        /(modelo|formato|letra|fonte|layout|documento|negrito|sublinhado|design|aparencia|aparência|formulário|formulario)/i.test(msg)
+    ) {
+        return 'alterar_modelo';
+    }
+    
+    // Pedido de documento (só se NÃO for alteração de modelo)
+    if (/(preciso|quero|envie|envia|mande|manda|me dá|me da|anexo)/i.test(msg) && !/(alterar|mudar|editar|modificar)/i.test(msg)) {
         return 'pedir_documento';
     }
 
     // Agendamento
-
     if (/(agendamento|agendar|marcar|horário|horario|atendimento presencial)/i.test(msg)) {
         return 'agendamento';
     }
@@ -276,14 +283,7 @@ function classificarIntencao(mensagem) {
     if (/(taxa|tpei|débito|debito|boleto|2 via|segunda via|certidão negativa|certidao negativa|sequencial)/i.test(msg)) {
         return 'taxa_bombeiro';
     }
-    
-    if (
-        /(alterar|mudar|editar|modificar|mexer|trocar)/i.test(msg) && 
-        /(modelo|formato|letra|fonte|layout|documento|negrito|sublinhado)/i.test(msg)
-    ) {
-        return 'alterar_modelo';
-    }
-    
+
     // Novos Modelos / Normas 2022
     if (/(novos modelos|normas técnicas|normas tecnicas|1\.01|1\.02|2022|atualizados)/i.test(msg)) {
         return 'novos_modelos';
@@ -587,6 +587,19 @@ function addToHistory(chatId, role, content) {
 
 // GROQ COM PERSONALIDADE
 async function getGroqReply(pergunta, chatId, tentativa = 1) {
+    // VERIFICA PRIMEIRO se é pergunta sobre alteração de modelo (prioridade máxima)
+    const perguntaNorm = pergunta.toLowerCase();
+    if (
+        /(alterar|mudar|editar|modificar|trocar|mexer|transformar|adaptar)/i.test(perguntaNorm) &&
+        /(modelo|documento|formulÃ¡rio|formulario|layout|fonte|letra|formato|design|aparencia|aparÃªncia)/i.test(perguntaNorm)
+    ) {
+        const resposta = gerarRespostaRapida('alterar_modelo', pergunta);
+        addToHistory(chatId, 'user', pergunta);
+        addToHistory(chatId, 'assistant', resposta);
+        return resposta;
+    }
+
+
     const intencao = classificarIntencao(pergunta);
     
     const intencoesDiretas = [
@@ -594,15 +607,15 @@ async function getGroqReply(pergunta, chatId, tentativa = 1) {
         'agendamento', 'taxa_bombeiro', 
         'alterar_modelo', 'novos_modelos', 'como_regularizar' 
     ];
-
-if (intencoesDiretas.includes(intencao)) {
+    
+    if (intencoesDiretas.includes(intencao)) {
         const resposta = gerarRespostaRapida(intencao, pergunta);
         
         // Salva no histórico para manter o contexto
         addToHistory(chatId, 'user', pergunta);
         addToHistory(chatId, 'assistant', resposta);
         
-        return resposta; // <--- O SEGREDO ESTÁ AQUI: O 'return' ENCERRA A FUNÇÃO
+        return resposta; 
     }
     
     // Para perguntas técnicas, usa RAG + IA
