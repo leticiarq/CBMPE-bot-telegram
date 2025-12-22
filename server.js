@@ -276,12 +276,14 @@ function classificarIntencao(mensagem) {
     if (/(taxa|tpei|débito|debito|boleto|2 via|segunda via|certidão negativa|certidao negativa|sequencial)/i.test(msg)) {
         return 'taxa_bombeiro';
     }
-
-    // Alteração de Modelo
-    if (/(alterar|mudar|editar|modificar).*(modelo|formato|letra|fonte|layout|documento)/i.test(msg)) {
+    
+    if (
+        /(alterar|mudar|editar|modificar|mexer|trocar)/i.test(msg) && 
+        /(modelo|formato|letra|fonte|layout|documento|negrito|sublinhado)/i.test(msg)
+    ) {
         return 'alterar_modelo';
     }
-
+    
     // Novos Modelos / Normas 2022
     if (/(novos modelos|normas técnicas|normas tecnicas|1\.01|1\.02|2022|atualizados)/i.test(msg)) {
         return 'novos_modelos';
@@ -590,15 +592,17 @@ async function getGroqReply(pergunta, chatId, tentativa = 1) {
     const intencoesDiretas = [
         'saudacao', 'agradecimento', 'despedida', 'ajuda', 'sobre_bot', 'casual', 
         'agendamento', 'taxa_bombeiro', 
-        'alterar_modelo', 'novos_modelos', 'como_regularizar' // <--- NOVOS
+        'alterar_modelo', 'novos_modelos', 'como_regularizar' 
     ];
 
-    if (intencoesDiretas.includes(intencao)) {
+if (intencoesDiretas.includes(intencao)) {
         const resposta = gerarRespostaRapida(intencao, pergunta);
-        // ADICIONE ESTAS 3 LINHAS:
-        addToHistory(chatId, 'user', pergunta);     
-        addToHistory(chatId, 'assistant', resposta); 
-        return resposta;                             
+        
+        // Salva no histórico para manter o contexto
+        addToHistory(chatId, 'user', pergunta);
+        addToHistory(chatId, 'assistant', resposta);
+        
+        return resposta; // <--- O SEGREDO ESTÁ AQUI: O 'return' ENCERRA A FUNÇÃO
     }
     
     // Para perguntas técnicas, usa RAG + IA
