@@ -277,7 +277,21 @@ function classificarIntencao(mensagem) {
         return 'taxa_bombeiro';
     }
 
-    
+    // Alteração de Modelo
+    if (/(alterar|mudar|editar|modificar).*(modelo|formato|letra|fonte|layout|documento)/i.test(msg)) {
+        return 'alterar_modelo';
+    }
+
+    // Novos Modelos / Normas 2022
+    if (/(novos modelos|normas técnicas|normas tecnicas|1\.01|1\.02|2022|atualizados)/i.test(msg)) {
+        return 'novos_modelos';
+    }
+
+    // Como Regularizar Comércio
+    if (/(regularizar|regularização|regularizacao|abrir|legalizar|como proceder).*(comércio|comercio|loja|empresa|negócio)/i.test(msg)) {
+        return 'como_regularizar';
+    }
+
     // Saudações
     if (/^(oi|olá|ola|hey|e aí|eai|bom dia|boa tarde|boa noite|opa)/i.test(msg)) {
         return 'saudacao';
@@ -396,6 +410,33 @@ function gerarRespostaRapida(intencao, mensagem) {
             "3. Digite o **número do sequencial** do imóvel que você deseja obter informações ou solicitar algum serviço.\n\n" +
             "🔗 **CLIQUE AQUI PARA ACESSAR:**\n" +
             "https://tpei.bombeiros.pe.gov.br/tpeinet/intranet/dwl_ctudo-gerenc.asp?build=1"
+        ],
+
+        alterar_modelo: [
+            "**🚫 É possível alterar o modelo dos documentos?**\n\n" +
+            "**Não.** Os termos têm que estar no formato (tamanho e tipo de letra, distância entre linhas, formato de página) apresentado.\n\n" +
+            "📝 O que o solicitante deve fazer é **somente substituir as partes em negrito e sublinhado** pelas informações, contudo deixando-as em negrito e sublinhadas."
+        ],
+
+        novos_modelos: [
+            "**🆕 Novos modelos de documentos para download**\n\n" +
+            "O advento das **Normas Técnicas 1.01/2022 e 1.02/2022** trouxe atualizações no processo de regularização das edificações.\n\n" +
+            "Consequentemente, os documentos necessários também foram atualizados, a fim de trazer maior celeridade no processo. 🚀"
+        ],
+
+        como_regularizar: [
+            "**🏢 Quero regularizar meu comércio, como proceder?**\n\n" +
+            "Basta acessar o site www.bombeiros.pe.gov.br e seguir os passos:\n\n" +
+            "1. Vá na aba de **Serviços** > **Atividades Técnicas**;\n" +
+            "2. Faça o download do **requerimento para solicitação do atestado de regularidade**;\n" +
+            "3. Preencha-o e leve a um posto de atendimento dos bombeiros.\n\n" +
+            "**📂 Documentos necessários:**\n" +
+            "• CNPJ;\n" +
+            "• Nota fiscal de compra/recarga de extintores;\n" +
+            "• Certidão negativa de débitos da Taxa de Prevenção e Extinção de Incêndio (TPEI).\n\n" +
+            "**💰 Taxa de Vistoria:**\n" +
+            "No local será entregue um boleto, que varia de acordo com o risco (residencial, comercial ou industrial) e com a área. Após o pagamento (bancos ou lotéricas), basta dar entrada no processo no mesmo local onde pegou o boleto.\n\n" +
+            "⚠️ **Observação:** Em caso de imóveis com **sistemas fixos** de prevenção contra incêndio, também será necessário apresentar o **memorial descritivo** devidamente preenchido e disponibilizado no mesmo site."
         ]
     };
     
@@ -546,12 +587,14 @@ function addToHistory(chatId, role, content) {
 async function getGroqReply(pergunta, chatId, tentativa = 1) {
     const intencao = classificarIntencao(pergunta);
     
-    // Respostas rápidas para interações sociais
-    if (['saudacao', 'agradecimento', 'despedida', 'ajuda', 'sobre_bot', 'casual', 'agendamento', 'taxa_bombeiro'].includes(intencao)) {
+    const intencoesDiretas = [
+        'saudacao', 'agradecimento', 'despedida', 'ajuda', 'sobre_bot', 'casual', 
+        'agendamento', 'taxa_bombeiro', 
+        'alterar_modelo', 'novos_modelos', 'como_regularizar' // <--- NOVOS
+    ];
+
+    if (intencoesDiretas.includes(intencao)) {
         const resposta = gerarRespostaRapida(intencao, pergunta);
-        addToHistory(chatId, 'user', pergunta);
-        addToHistory(chatId, 'assistant', resposta);
-        return resposta;
     }
     
     // Para perguntas técnicas, usa RAG + IA
