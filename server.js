@@ -98,85 +98,81 @@ ${data.text}
     return combinedText;
 }
 
-// MAPEAMENTO DE DOCUMENTOS 
+// MAPEAMENTO DE DOCUMENTOS
 const DOCUMENTOS_DISPONIVEIS = {
-    // Requerimentos
-    'requerimento_alteracao': {
-        arquivo: './docs/ANEXO_F_REQUERIMENTO_PARA_ALTERACAO_DE_DADOS_DE_AVCB_AR_VIGENTE.pdf',
-        nome: 'Requerimento para Alteração de Dados AVCB/AR',
-        descricao: 'Use este modelo para solicitar alteração de dados em AVCB ou Atestado de Regularidade vigente',
-        palavras_chave: ['alteração', 'alteracao', 'mudança', 'mudanca', 'dados', 'avcb', 'ar']
-    },
-    'requerimento_geral': {
-        arquivo: './docs/ANEXO_H__MODELO_DE_REQUERIMENTO.pdf',
-        nome: 'Modelo de Requerimento Geral',
-        descricao: 'Modelo padrão de requerimento para processos do CBMPE',
-        palavras_chave: ['requerimento', 'modelo', 'solicitação', 'solicitacao', 'pedido']
-    },
-    'requerimento_termo_compromisso': {
-        arquivo: './docs/Modelo_de_Requerimento_para_Termo_de_Compromisso.pdf',
-        nome: 'Requerimento para Termo de Compromisso',
-        descricao: 'Para solicitar termo de compromisso',
-        palavras_chave: ['termo', 'compromisso', 'prazo']
-    },
-    'requerimento_atualizacao_pci': {
-        arquivo: './docs/Requerimento_atualizacao_de_PCI.pdf',
-        nome: 'Requerimento de Atualização de PCI',
-        descricao: 'Para atualizar Projeto de Combate a Incêndio',
-        palavras_chave: ['pci', 'projeto', 'atualização', 'atualizacao', 'combate', 'incendio']
-    },
-    
-    // Declarações
-    'declaracao_responsabilidade': {
-        arquivo: './docs/DECLARACAO_DE_RESPONSABILIDADE_PARA_PROCESSO_DE_RISCO_II_MEDIO_2.pdf',
-        nome: 'Declaração de Responsabilidade (Risco Médio)',
-        descricao: 'Declaração necessária para processos de risco médio (Risco II)',
-        palavras_chave: ['declaração', 'declaracao', 'responsabilidade', 'risco', 'medio', 'médio']
-    },
-    'declaracao_nao_interdicao': {
-        arquivo: './docs/Modelo_de_Declaracaoo_de_Nao_Interdicaoo.pdf',
-        nome: 'Declaração de Não Interdição',
-        descricao: 'Declara que o estabelecimento não está interditado',
-        palavras_chave: ['interdição', 'interdicao', 'interditado', 'fechado']
-    },
-    
-    // Procuração
+    // --- GRUPO: VISTORIA ---
     'procuracao': {
         arquivo: './docs/DIESP_modelo_de_procuracaoo_AVCB.pdf',
-        nome: 'Modelo de Procuração para AVCB',
+        nome: 'MODELO DE PROCURAÇÃO',
         descricao: 'Procuração para representante legal tratar de AVCB',
         palavras_chave: ['procuração', 'procuracao', 'representante', 'legal']
     },
-    
-    // Recursos e Certidões
+    'declaracao_responsabilidade': {
+        arquivo: './docs/DECLARACAO_DE_RESPONSABILIDADE_PARA_PROCESSO_DE_RISCO_II_MEDIO_2.pdf',
+        nome: 'DECLARAÇÃO DE RESPONSABILIDADE PARA PROCESSO DE RISCO II - MÉDIO',
+        descricao: 'Declaração necessária para processos de risco médio (Risco II)',
+        palavras_chave: ['declaração', 'declaracao', 'responsabilidade', 'risco', 'medio', 'médio']
+    },
+    'requerimento_alteracao': {
+        arquivo: './docs/ANEXO_F_REQUERIMENTO_PARA_ALTERACAO_DE_DADOS_DE_AVCB_AR_VIGENTE.pdf',
+        nome: 'REQUERIMENTO PARA ALTERAÇÃO DE DADOS DE AVCB-AR VIGENTE',
+        descricao: 'Use este modelo para solicitar alteração de dados em AVCB ou Atestado de Regularidade vigente',
+        palavras_chave: ['alteração', 'alteracao', 'mudança', 'mudanca', 'dados', 'avcb', 'ar']
+    },
     'recurso_ciat_csat': {
         arquivo: './docs/ANEXO_G__MODELO_DE_RECURSO_PARA_A_CIAT_OU_CSAT.pdf',
-        nome: 'Modelo de Recurso para CIAT/CSAT',
+        nome: 'MODELO DE RECURSO PARA A CIAT OU CSAT',
         descricao: 'Para interpor recurso junto à CIAT ou CSAT',
         palavras_chave: ['recurso', 'ciat', 'csat', 'contestação', 'contestacao']
     },
+
+    // --- GRUPO: ANÁLISE DE PROJETO ---
+    'requerimento_atualizacao_pci': {
+        arquivo: './docs/Requerimento_atualizacao_de_PCI.pdf',
+        nome: 'MODELO DE REQUERIMENTO PARA ATUALIZAÇÃO DE PROJETO',
+        descricao: 'Para atualizar Projeto de Combate a Incêndio',
+        palavras_chave: ['pci', 'projeto', 'atualização', 'atualizacao', 'combate', 'incendio']
+    },
     'certidao_mudanca_endereco': {
         arquivo: './docs/ANEXO_E__MODELO_DE_CERTIDAO_DE_MUDANCA_DE_ENDERECO.pdf',
-        nome: 'Certidão de Mudança de Endereço',
+        nome: 'MODELO DE CERTIDÃO DE MUDANÇA DE ENDEREÇO',
         descricao: 'Para informar mudança de endereço do estabelecimento',
         palavras_chave: ['certidão', 'certidao', 'mudança', 'mudanca', 'endereço', 'endereco']
     },
-    
-    // Outros
-    'cronograma_medidas': {
-        arquivo: './docs/Modelo_de_Proposta_de_Cronograma_e_Medidas_Compensatorias.pdf',
-        nome: 'Proposta de Cronograma e Medidas Compensatórias',
-        descricao: 'Para estabelecer cronograma e medidas quando não puder cumprir todos requisitos imediatamente',
-        palavras_chave: ['cronograma', 'medidas', 'compensatórias', 'compensatorias', 'prazo']
+    'requerimento_geral': {
+        arquivo: './docs/ANEXO_H__MODELO_DE_REQUERIMENTO.pdf',
+        nome: 'MODELO DE REQUERIMENTO',
+        descricao: 'Modelo padrão de requerimento para processos do CBMPE',
+        palavras_chave: ['requerimento', 'modelo', 'solicitação', 'solicitacao', 'pedido']
     },
     'anexo_c_carimbo': {
         arquivo: './docs/ANEXO_C__INFORMACOES_QUE_DEVERAO_CONSTAR_NO_CARIMBO_E_ITEM_15_DO_MEMORIAL_DO_PROJETO_ATUALIZADO.pdf',
-        nome: 'Anexo C - Informações para Carimbo e Memorial',
-        descricao: 'Informações que devem constar no carimbo e item 15 do memorial do projeto',
+        nome: 'INFORMAÇÕES PARA CARIMBO E MEMORIAL',
+        descricao: 'Informações que deverão constar no carimbo e item 15 do memorial do projeto atualizado',
         palavras_chave: ['anexo', 'carimbo', 'memorial', 'projeto', 'informações', 'informacoes']
     },
-    
-    // Legislação
+
+    // --- GRUPO: TERMO DE COMPROMISSO ---
+    'declaracao_nao_interdicao': {
+        arquivo: './docs/Modelo_de_Declaracaoo_de_Nao_Interdicaoo.pdf',
+        nome: 'MODELO DE DECLARAÇÃO DE NÃO INTERDIÇÃO',
+        descricao: 'Declara que o estabelecimento não está interditado',
+        palavras_chave: ['interdição', 'interdicao', 'interditado', 'fechado']
+    },
+    'cronograma_medidas': {
+        arquivo: './docs/Modelo_de_Proposta_de_Cronograma_e_Medidas_Compensatorias.pdf',
+        nome: 'MODELO DE PROPOSTA DE CRONOGRAMA E MEDIDAS COMPENSATÓRIAS',
+        descricao: 'Para estabelecer cronograma e medidas quando não puder cumprir todos requisitos imediatamente',
+        palavras_chave: ['cronograma', 'medidas', 'compensatórias', 'compensatorias', 'prazo']
+    },
+    'requerimento_termo_compromisso': {
+        arquivo: './docs/Modelo_de_Requerimento_para_Termo_de_Compromisso.pdf',
+        nome: 'MODELO DE REQUERIMENTO PARA TERMO DE COMPROMISSO',
+        descricao: 'Para solicitar termo de compromisso',
+        palavras_chave: ['termo', 'compromisso', 'prazo']
+    },
+
+    // --- GRUPO: LEGISLAÇÃO ---
     'lei_11186': {
         arquivo: './docs/1-LEI_N_11-186_DE_22_DE_DEZEMBRO_DE_1994.pdf',
         nome: 'Lei Nº 11.186/1994',
@@ -215,7 +211,6 @@ function buscarDocumentos(mensagem) {
     const documentosEncontrados = [];
     
     for (const [key, doc] of Object.entries(DOCUMENTOS_DISPONIVEIS)) {
-        // Verifica se alguma palavra-chave aparece na mensagem
         const encontrou = doc.palavras_chave.some(palavra => 
             msgLower.includes(palavra.toLowerCase())
         );
@@ -232,26 +227,25 @@ function buscarDocumentos(mensagem) {
 function listarTodosDocumentos() {
     let lista = "📚 **Documentos Disponíveis:**\n\n";
     
-    lista += "**📝 Requerimentos:**\n";
-    lista += "• `/doc requerimento_alteracao` - Alteração de dados AVCB/AR\n";
-    lista += "• `/doc requerimento_geral` - Requerimento padrão\n";
-    lista += "• `/doc requerimento_termo_compromisso` - Termo de compromisso\n";
-    lista += "• `/doc requerimento_atualizacao_pci` - Atualização de PCI\n\n";
+    lista += "**📝 VISTORIA:**\n";
+    lista += "• `/doc procuracao` - Modelo de Procuração\n";
+    lista += "• `/doc declaracao_responsabilidade` - Declaração de Responsabilidade (Risco II)\n";
+    lista += "• `/doc requerimento_alteracao` - Requerimento Alteração de Dados\n";
+    lista += "• `/doc recurso_ciat_csat` - Modelo de Recurso CIAT/CSAT\n\n";
     
-    lista += "**📋 Declarações:**\n";
-    lista += "• `/doc declaracao_responsabilidade` - Declaração de responsabilidade\n";
-    lista += "• `/doc declaracao_nao_interdicao` - Declaração de não interdição\n\n";
+    lista += "**📋 ANÁLISE DE PROJETO:**\n";
+    lista += "• `/doc requerimento_atualizacao_pci` - Atualização de Projeto\n";
+    lista += "• `/doc certidao_mudanca_endereco` - Certidão Mudança de Endereço\n";
+    lista += "• `/doc requerimento_geral` - Modelo de Requerimento Geral\n";
+    lista += "• `/doc anexo_c_carimbo` - Informações Carimbo/Memorial\n";
+    lista += "• `/doc recurso_ciat_csat` - Modelo de Recurso CIAT/CSAT\n\n";
     
-    lista += "**⚖️ Procuração e Recursos:**\n";
-    lista += "• `/doc procuracao` - Procuração para AVCB\n";
-    lista += "• `/doc recurso_ciat_csat` - Recurso CIAT/CSAT\n";
-    lista += "• `/doc certidao_mudanca_endereco` - Mudança de endereço\n\n";
+    lista += "**🤝 TERMO DE COMPROMISSO:**\n";
+    lista += "• `/doc declaracao_nao_interdicao` - Declaração de Não Interdição\n";
+    lista += "• `/doc cronograma_medidas` - Proposta de Cronograma e Medidas\n";
+    lista += "• `/doc requerimento_termo_compromisso` - Requerimento Termo Compromisso\n\n";
     
-    lista += "**📊 Outros:**\n";
-    lista += "• `/doc cronograma_medidas` - Cronograma e medidas\n";
-    lista += "• `/doc anexo_c_carimbo` - Anexo C (carimbo)\n\n";
-    
-    lista += "**📖 Legislação:**\n";
+    lista += "**📖 LEGISLAÇÃO:**\n";
     lista += "• `/doc lei_11186` - Lei 11.186/1994\n";
     lista += "• `/doc lei_15232` - Lei 15.232/2014\n";
     lista += "• `/doc decreto_52006` - Decreto 52006\n";
@@ -272,9 +266,17 @@ function classificarIntencao(mensagem) {
         return 'pedir_documento';
     }
 
+    // Agendamento
+
     if (/(agendamento|agendar|marcar|horário|horario|atendimento presencial)/i.test(msg)) {
         return 'agendamento';
     }
+
+    // Taxa de Bombeiros / TPEI
+    if (/(taxa|tpei|débito|debito|boleto|2 via|segunda via|certidão negativa|certidao negativa|sequencial)/i.test(msg)) {
+        return 'taxa_bombeiro';
+    }
+
     
     // Saudações
     if (/^(oi|olá|ola|hey|e aí|eai|bom dia|boa tarde|boa noite|opa)/i.test(msg)) {
@@ -383,6 +385,17 @@ function gerarRespostaRapida(intencao, mensagem) {
             "• Apenas dúvidas do laudo de exigências.\n\n" +
             "🔗 **CLIQUE AQUI PARA AGENDAR:**\n" +
             "https://agendamento.bombeiros.pe.gov.br/"
+        ],
+
+        taxa_bombeiro: [
+            "**TAXA DE BOMBEIROS - TPEI** 💰\n\n" +
+            "Nesta seção é possível consultar débitos, emitir segunda via de Taxa de Bombeiro e Certidão negativa de débitos.\n\n" +
+            "**📝 Instruções:**\n" +
+            "1. Após o acesso no link abaixo, faça seu cadastro;\n" +
+            "2. Em seguida digite o **Município**;\n" +
+            "3. Digite o **número do sequencial** do imóvel que você deseja obter informações ou solicitar algum serviço.\n\n" +
+            "🔗 **CLIQUE AQUI PARA ACESSAR:**\n" +
+            "https://tpei.bombeiros.pe.gov.br/tpeinet/intranet/dwl_ctudo-gerenc.asp?build=1"
         ]
     };
     
@@ -534,7 +547,7 @@ async function getGroqReply(pergunta, chatId, tentativa = 1) {
     const intencao = classificarIntencao(pergunta);
     
     // Respostas rápidas para interações sociais
-    if (['saudacao', 'agradecimento', 'despedida', 'ajuda', 'sobre_bot', 'casual', 'agendamento'].includes(intencao)) {
+    if (['saudacao', 'agradecimento', 'despedida', 'ajuda', 'sobre_bot', 'casual', 'agendamento', 'taxa_bombeiro'].includes(intencao)) {
         const resposta = gerarRespostaRapida(intencao, pergunta);
         addToHistory(chatId, 'user', pergunta);
         addToHistory(chatId, 'assistant', resposta);
