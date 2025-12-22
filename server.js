@@ -4,7 +4,7 @@ import dotenv from "dotenv";
 import fs from "fs";
 import { createRequire } from "module";
 import express from "express";
-
+import fs from "fs";
 
 // --- IMPORTA O CONTEÚDO DO OUTRO ARQUIVO ---
 import { 
@@ -127,7 +127,7 @@ async function getGroqReply(pergunta, chatId, tentativa = 1) {
         addToHistory(chatId, 'assistant', respostaFixa);
         return respostaFixa; // PARE AQUI! Retorna o texto do JSON
     }
-
+    
     // 1. Classifica usando a função importada
     const intencao = classificarIntencao(pergunta);
     
