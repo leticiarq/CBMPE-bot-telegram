@@ -271,6 +271,10 @@ function classificarIntencao(mensagem) {
     if (/(preciso|quero|envie|envia|mande|manda|me dá|me da|documento|modelo|formulário|formulario|anexo)/i.test(msg)) {
         return 'pedir_documento';
     }
+
+    if (/(agendamento|agendar|marcar|horário|horario|atendimento presencial)/i.test(msg)) {
+        return 'agendamento';
+    }
     
     // Saudações
     if (/^(oi|olá|ola|hey|e aí|eai|bom dia|boa tarde|boa noite|opa)/i.test(msg)) {
@@ -354,6 +358,31 @@ function gerarRespostaRapida(intencao, mensagem) {
             "Entendi! Mas lembre-se que sou especialista em CBMPE. Tem alguma dúvida sobre AVCB, regularização ou documentação?",
             "Hmm, não tenho certeza como responder isso! 😅 Mas posso te ajudar com questões do Corpo de Bombeiros. Quer saber algo específico?",
             "Legal! Se tiver alguma dúvida sobre AVCB, regularização ou qualquer coisa do CBMPE, é só perguntar! 👍"
+        ],
+
+        agendamento: [
+            "**AGENDAMENTO DE ATENDIMENTO** 🗓️\n\n" +
+            "Nesta página é possível agendar os serviços de atendimento ao público presencial, tais como: Solicitação de Isenção e Restituição de Taxa de Bombeiro; Solicitação de Certidão de ocorrências de Atendimento Pré-Hospitalar e Incêndio; Mudança de Titularidade de AVCB, Projeto e TPEI, Identificação de Pagamentos e revalidação de Taxas.\n\n" +
+            "Dentre as opções de agendamento, constam os Serviços do CAT - Regularização e Fiscalização.\n\n" +
+            "**⚠️ Informações Importantes:**\n" +
+            "Informamos que nosso contato será realizado através de **teleatendimento**. Momentos antes do horário agendado, será enviado o link através do e-mail cadastrado. Sempre verifique a caixa de spam/lixo eletrônico.\n\n" +
+            "**Atendimentos disponíveis:**\n" +
+            "1. Orientações gerais sobre problemas com processos de vistoria e fiscalizações, correção de atestado de regularidade, cadastramentos;\n" +
+            "2. Notificações e/ou interdições (bar seguro);\n" +
+            "3. Agendamento para tratar com o comandante do CAT/RMR sobre termo de compromisso;\n" +
+            "4. Orientações sobre recursos para comissão interna de atividade técnicas (CIAT-CAT/RMR).\n\n" +
+            "📧 Nosso e-mail: cat.rmr@bombeiros.pe.gov.br\n\n" +
+            "**👨‍💻 Consulta ao Analista:**\n" +
+            "Senhor(a) contribuinte, informamos que seu atendimento será realizado através de teleatendimento no dia e hora agendados. O(a) senhor(a) receberá um link através do e-mail cadastrado.\n\n" +
+            "**Regras do atendimento:**\n" +
+            "• Será gravado;\n" +
+            "• Duração de 20 minutos;\n" +
+            "• Tolerância de atraso de 05 minutos;\n" +
+            "• Prestado apenas ao responsável técnico ou proprietário (acompanhado do técnico);\n" +
+            "• Apenas sobre o protocolo informado;\n" +
+            "• Apenas dúvidas do laudo de exigências.\n\n" +
+            "🔗 **CLIQUE AQUI PARA AGENDAR:**\n" +
+            "https://agendamento.bombeiros.pe.gov.br/"
         ]
     };
     
@@ -505,7 +534,7 @@ async function getGroqReply(pergunta, chatId, tentativa = 1) {
     const intencao = classificarIntencao(pergunta);
     
     // Respostas rápidas para interações sociais
-    if (['saudacao', 'agradecimento', 'despedida', 'ajuda', 'sobre_bot', 'casual'].includes(intencao)) {
+    if (['saudacao', 'agradecimento', 'despedida', 'ajuda', 'sobre_bot', 'casual', 'agendamento'].includes(intencao)) {
         const resposta = gerarRespostaRapida(intencao, pergunta);
         addToHistory(chatId, 'user', pergunta);
         addToHistory(chatId, 'assistant', resposta);
