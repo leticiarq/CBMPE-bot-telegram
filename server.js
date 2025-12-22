@@ -4,7 +4,6 @@ import dotenv from "dotenv";
 import fs from "fs";
 import { createRequire } from "module";
 import express from "express";
-import fs from "fs";
 
 // --- IMPORTA O CONTEÚDO DO OUTRO ARQUIVO ---
 import { 
@@ -16,8 +15,6 @@ import {
 
 dotenv.config();
 const require = createRequire(import.meta.url);
-
-const faqData = JSON.parse(fs.readFileSync('./faq.json', 'utf8'));
 
 // --- CONFIGURAÇÃO SERVIDOR (Para o Render não cair) ---
 const app = express();
@@ -63,23 +60,6 @@ function getConversationHistory(chatId) {
     return conversationHistory.get(chatId);
 }
 
-function verificarRespostaFixa(mensagem) {
-    const msg = mensagem.toLowerCase();
-
-    for (const [chave, dados] of Object.entries(faqData)) {
-        // Verifica se tem algum dos gatilhos
-        const temGatilho = dados.gatilhos.some(g => msg.includes(g));
-        
-        // Se tiver contexto obrigatório, verifica também
-        const temContexto = dados.contexto.length === 0 || dados.contexto.some(c => msg.includes(c));
-
-        if (temGatilho && temContexto) {
-            return dados.resposta; // Retorna o texto exato do JSON
-        }
-    }
-    return null; // Não achou resposta fixa
-}
-
 function addToHistory(chatId, role, content) {
     const history = getConversationHistory(chatId);
     history.push({ role, content });
@@ -118,16 +98,6 @@ function buscarTrechosRelevantes(pergunta, texto, limite = CONTEXT_MAX_LENGTH) {
 
 // --- FUNÇÃO PRINCIPAL DO BOT (CORRIGIDA) ---
 async function getGroqReply(pergunta, chatId, tentativa = 1) {
-    
-    // 1. TENTA ACHAR UMA RESPOSTA NO FAQ (JSON)
-    const respostaFixa = verificarRespostaFixa(pergunta);
-    
-    if (respostaFixa) {
-        addToHistory(chatId, 'user', pergunta);
-        addToHistory(chatId, 'assistant', respostaFixa);
-        return respostaFixa; // PARE AQUI! Retorna o texto do JSON
-    }
-    
     // 1. Classifica usando a função importada
     const intencao = classificarIntencao(pergunta);
     
