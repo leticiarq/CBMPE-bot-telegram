@@ -595,6 +595,10 @@ async function getGroqReply(pergunta, chatId, tentativa = 1) {
 
     if (intencoesDiretas.includes(intencao)) {
         const resposta = gerarRespostaRapida(intencao, pergunta);
+        // ADICIONE ESTAS 3 LINHAS:
+        addToHistory(chatId, 'user', pergunta);     
+        addToHistory(chatId, 'assistant', resposta); 
+        return resposta;                             
     }
     
     // Para perguntas técnicas, usa RAG + IA
