@@ -1,0 +1,22 @@
+{
+  "alterar_modelo": {
+    "gatilhos": ["alterar", "mudar", "editar", "modificar", "mexer", "trocar"],
+    "contexto": ["modelo", "formato", "letra", "fonte", "layout", "documento", "negrito"],
+    "resposta": "**🚫 É possível alterar o modelo dos documentos?**\n\n**Não.** Os termos têm que estar no formato (tamanho e tipo de letra, distância entre linhas, formato de página) apresentado.\n\n📝 O que o solicitante deve fazer é **somente substituir as partes em negrito e sublinhado** pelas informações, contudo deixando-as em negrito e sublinhadas."
+  },
+  "novos_modelos": {
+    "gatilhos": ["novos modelos", "normas técnicas", "normas tecnicas", "1.01", "1.02", "2022"],
+    "contexto": [],
+    "resposta": "**🆕 Novos modelos de documentos para download**\n\nO advento das **Normas Técnicas 1.01/2022 e 1.02/2022** trouxe atualizações no processo de regularização das edificações.\n\nConsequentemente, os documentos necessários também foram atualizados, a fim de trazer maior celeridade no processo. 🚀"
+  },
+  "agendamento": {
+    "gatilhos": ["agendamento", "agendar", "marcar", "horário", "atendimento presencial"],
+    "contexto": [],
+    "resposta": "**AGENDAMENTO DE ATENDIMENTO** 🗓️\n\nNesta página é possível agendar os serviços presenciais.\n\n🔗 **CLIQUE AQUI:**\nhttps://agendamento.bombeiros.pe.gov.br/"
+  },
+  "taxa_bombeiro": {
+    "gatilhos": ["taxa", "tpei", "débito", "debito", "boleto", "2 via", "segunda via"],
+    "contexto": [],
+    "resposta": "**TAXA DE BOMBEIROS - TPEI** 💰\n\nConsulte débitos e emita 2ª via aqui.\n\n🔗 **CLIQUE AQUI:**\nhttps://tpei.bombeiros.pe.gov.br/tpeinet/intranet/dwl_ctudo-gerenc.asp?build=1"
+  }
+}
