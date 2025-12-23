@@ -260,16 +260,30 @@ function listarTodosDocumentos() {
 // CLASSIFICADOR DE INTENÇÃO 
 function classificarIntencao(mensagem) {
     const msg = mensagem.toLowerCase();
+
     
+    // Serviços Online e Links Específicos
+    if (
+        
+        /(acompanhamento|processo|fiscaliza|certid|ocorrência|presencial|cat|regulariza|valida|atestado|conformidade|autenticidade|avcb|visto|analista|andamento)/i.test(msg) && 
+        /(link|site|onde|acessar|online|validar|consultar|verificar|emiss|emitir|falar|marcar|agendar)/i.test(msg)
+    ) {
+        return 'links_servicos';
+    }
+    // Caso o usuário digite apenas termos muito específicos sem pedir "link"
+    if (/(sac online|sarc|autenticidade avcb|validar projeto|agendamento online)/i.test(msg)) {
+        return 'links_servicos';
+    }
+  
+
     // Pedido de documento
     if (/(preciso|quero|envie|envia|mande|manda|me dá|me da|documento|modelo|formulário|formulario|anexo)/i.test(msg)) {
         return 'pedir_documento';
     }
 
     // Agendamento
-
     if (/(agendamento|agendar|marcar|horário|horario|atendimento presencial)/i.test(msg)) {
-        return 'agendamento';
+        return 'agendamento'; // Mantive o antigo, mas o novo 'links_servicos' pode cobrir isso também se preferir unificar
     }
 
     // Taxa de Bombeiros / TPEI
@@ -319,18 +333,10 @@ function classificarIntencao(mensagem) {
         return 'sobre_bot';
     }
     
-    // Pergunta técnica (contém palavras-chave do CBMPE)
-    if (/(avcb|cbmpe|regulariza|vistoria|atestado|bombeiro|incêndio|incendio|extintor|documento|prazo|validade|projeto|pci|segurança|lei|decreto)/i.test(msg)) {
-        return 'tecnica';
-    }
-    
-    // Conversa casual
-    if (msg.length < 50 && !/\?/.test(msg)) {
-        return 'casual';
-    }
-    
-    return 'tecnica'; // Default: trata como técnica
+    // Pergunta técnica (default)
+    return 'tecnica';
 }
+
 
 // RESPOSTAS RÁPIDAS
 function gerarRespostaRapida(intencao, mensagem) {
@@ -439,8 +445,41 @@ function gerarRespostaRapida(intencao, mensagem) {
             "**💰 Taxa de Vistoria:**\n" +
             "No local será entregue um boleto, que varia de acordo com o risco (residencial, comercial ou industrial) e com a área. Após o pagamento (bancos ou lotéricas), basta dar entrada no processo no mesmo local onde pegou o boleto.\n\n" +
             "⚠️ **Observação:** Em caso de imóveis com **sistemas fixos** de prevenção contra incêndio, também será necessário apresentar o **memorial descritivo** devidamente preenchido e disponibilizado no mesmo site."
+        ],
+        
+        links_servicos: [
+            "🔗 **LINKS ÚTEIS E SERVIÇOS ONLINE CBMPE**\n\n" +
+            "Acesse diretamente os serviços que você precisa:\n\n" +
+            
+            "👨‍💻 **Consulta ao Analista:**\n" +
+            "Reservado para requisitar uma audiência com o analista de projeto para informações, instruções ou esclarecimento de dúvidas referente ao seu projeto contra incêndio.\n" +
+            "👉 [Clique para Consultar](https://agendamento.bombeiros.pe.gov.br/)\n\n" +
+
+            "📂 **Consultas de AVCB e Projetos de empresas:**\n" +
+            "Através desta página o contribuinte poderá consultar o andamento do seu processo através de número de protocolo, CNPJ ou CPF.\n" +
+            "👉 [Clique para Consultar](https://saconline.bombeiros.pe.gov.br/sacbm_control_tb_req_visto_prot_cnpj/sacbm_control_tb_req_visto_prot_cnpj.php)\n\n" +
+
+            "🔍 **Acompanhamento de Processos de Fiscalização:**\n" +
+            "👉 [Acessar](https://saconline.bombeiros.pe.gov.br/sacbm_ctrl_login_online/sacbm_ctrl_login_online.php?var_tipo_menu=V)\n\n" +
+            
+            "🚒 **Emissão de Certidão de Ocorrências:**\n" +
+            "👉 [Acessar](https://sarc.bombeiros.pe.gov.br/tpeinet/intranet/dwl_buscaProtocolo.asp)\n\n" +
+            
+            "📅 **Agendamento de Atendimento Presencial:**\n" +
+            "👉 [Acessar](https://agendamento.bombeiros.pe.gov.br/)\n\n" +
+            
+            "🏢 **Serviços do CAT (Regularização e Fiscalização):**\n" +
+            "👉 [Acessar](https://saconline.bombeiros.pe.gov.br/sacbm_ctrl_login_online/sacbm_ctrl_login_online.php?var_tipo_menu=R)\n\n" +
+            
+            "✅ **Validação de Atestado de Conformidade de Projeto:**\n" +
+            "👉 [Acessar](https://saconline.bombeiros.pe.gov.br/sacbm_ctrl_validar_atestado_conformidade/sacbm_ctrl_validar_atestado_conformidade.php)\n\n" +
+            
+            "🛡️ **Validar AVCB (Autenticidade):**\n" +
+            "👉 [Acessar](https://saconline.bombeiros.pe.gov.br/sacbm_control_tb_req_visto_consulta_ar/sacbm_control_tb_req_visto_consulta_ar.php)"
         ]
     };
+    
+    if (!respostas[intencao]) return respostas['casual'][0];
     
     const opcoes = respostas[intencao];
     return opcoes[Math.floor(Math.random() * opcoes.length)];
@@ -592,7 +631,7 @@ async function getGroqReply(pergunta, chatId, tentativa = 1) {
     const intencoesDiretas = [
         'saudacao', 'agradecimento', 'despedida', 'ajuda', 'sobre_bot', 'casual', 
         'agendamento', 'taxa_bombeiro', 
-        'alterar_modelo', 'novos_modelos', 'como_regularizar' 
+        'alterar_modelo', 'novos_modelos', 'como_regularizar', 'links_servicos'
     ];
 
 if (intencoesDiretas.includes(intencao)) {
